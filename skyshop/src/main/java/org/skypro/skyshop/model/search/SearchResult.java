@@ -13,10 +13,23 @@ public class SearchResult {
         this.contentType = contentType;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
     public SearchResult fromSearchable(Searchable searchable){
         SearchResult searchResult = new SearchResult(searchable.getId(),
                 searchable.getSearchTerm(),
                 searchable.getSearchContentType());
         return searchResult;
     }
+
 }
