@@ -6,10 +6,7 @@ import org.skypro.skyshop.model.basket.UserBasket;
 import org.springframework.stereotype.Service;
 
 import java.sql.ClientInfoStatus;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,9 +21,9 @@ public class BasketService {
 
     public void addProductById(UUID id){
         if (storageService.getProductById(id).isPresent()){
-            throw new IllegalArgumentException("Product not found");
-        } else{
             productBasket.addProduct(id);
+        } else{
+            throw new IllegalArgumentException("Product not found");
         }
     }
 
@@ -36,7 +33,12 @@ public class BasketService {
                 .map(el-> new BasketItem(storageService.getProductById(el.getKey()).get(),el.getValue()))
                 .collect(Collectors.toList());
 
-        return new UserBasket(items);
+        if (items.isEmpty()){
+            throw new NoSuchElementException("No product");
+        } else {
+            return new UserBasket(items);
+        }
+
 
     }
 }
